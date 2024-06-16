@@ -105,7 +105,7 @@ To do this do the following:
 </div>
 <br>
 
-- You'll be taken to a page where you can edit the workflow file. Replace the contents of the file with the following code:
+- You'll be taken to a page where you can edit the workflow file. Paste the following code:
 
 ```yaml
 name: Publish README to HTML
@@ -137,3 +137,27 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./
 ```
+
+This will publish our `README` as a webpage everytime it is updated.
+
+Now commit the changes and add the following text: 'created first README to html workflow'
+
+After you've done that, go back to your `README` and make any change (you can just press space and backspace).
+
+The GitHub Actions workflow should not automatically happen, because we made changes to our `README`. To see the workflow in action, go to the 'Actions' tab. 
+
+It shouldn't take long, but if ran successfully, you should see the following:
+
+<div align="center">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/github_workflow_success.png" width="80%">
+</div>
+<br>
+
+If you just click on that link, it should open your `README` as a webpage, hosted online!
+
+<div align="center">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/github_webpage.png" width="80%">
+</div>
+<br>
+
+Well done, you just published your work online so now everyone can know what you've achieved during your placement!

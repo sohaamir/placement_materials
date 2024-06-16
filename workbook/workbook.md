@@ -40,7 +40,7 @@ In your folder, you should have access to several files including data, informat
 ```
 
 <div align="center">
-  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/haven_files.png" width="100%">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/haven_files.png" width="80%">
 </div>
 <br>
 
@@ -119,7 +119,7 @@ Again, some example questions are below, and the template answers to these quest
 We can make significantly more complicated graphs in R. So far we are just scratching the surface! As a final example, try to re-create the graph below:
 
 <div align="center">
-  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/final_graph.png" width="100%">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/final_graph.png" width="80%">
 </div>
 <br>
 
