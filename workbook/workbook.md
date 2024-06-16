@@ -1,4 +1,4 @@
-# Performing basic data analysis and plotting with ChatGPT and R
+# Basic data analysis and plotting with ChatGPT and R
 
 ## What is the HAVEN project?
 
@@ -31,7 +31,7 @@ In your folder, you should have access to several files including data, informat
 │   ├── correct_rt_data.csv
 │   ├── participant_data.csv
 │   └── rt_data.csv
-├── haven_information
+├── information
 │   ├── HAVEN.pptx
 │   └── HAVEN_information_sheet.pdf
 ├── workbook
@@ -54,20 +54,20 @@ Once you have understood what the HAVEN study is, you can work on some of the da
 
 I will help to set up the R project, but here are a few tasks to start with: 
 
-•	Load in the `participant_data.csv` file
-•	Assign the `participant_data.csv` file to a variable 
-•	Print out the current directory in the R console
-•	Run some basic commands such as `head` and `summary` on the data
+-	Load in the `participant_data.csv` file
+-	Assign the `participant_data.csv` file to a variable 
+-	Print out the current directory in the R console
+-	Run some basic commands such as `head` and `summary` on the data
 
 Feel free to Google or ChatGPT how to do each of these!
 
 Before you work on the data, ask yourself:
 
-1)	What questions would you be interested in understanding? Why? What are the expected results that you would (hopefully) see?
+**What questions would you be interested in understanding? Why? What are the expected results that you would (hopefully) see?**
 
 In doing so, we are creating some basic hypotheses before you do your analysis. This is a basic principle of science, as we use our existing knowledge to predict the results and experimentally validate them using our research. 
 
-•	Some of these may be straight forward (e.g., height and weight), but make some hypotheses about the lesion data. Do some research into the effects of lesions on memory function.
+- Some of these may be straight forward (e.g., height and weight), but make some hypotheses about the lesion data. Do some research into the effects of lesions on memory function.
 
 Once you have thought of some questions, think about how you are going to test them using the data? Maybe you can visualise them? And then perform some statistical tests? Which graphs work best for each of your questions? Which statistical tests are you going to use?
 
@@ -76,7 +76,7 @@ Once you have thought of some questions, think about how you are going to test t
 Once you have an idea of what your research questions are, let me know and we can work on them together! 
 
 <div align="center">
-  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/stop.png" width="100%">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/stop.png" width="50%">
 </div>
 <br>
 
@@ -87,7 +87,7 @@ You are most likely to have never programmed before. Up until a fairly recently,
 The thing with ChatGPT is that the more specific you are with what you give it, the better results it will churn out. For example, let’s say you loaded in the `participant_data.csv` file, assigned it to the `participant_data` variable, and wanted to plot height vs age. This is the ‘prompt’ that I would give ChatGPT:
 
 <div align="center">
-  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/chatgpt_prompt.png" width="100%">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/chatgpt_prompt.png" width="70%">
 </div>
 <br>
 
@@ -102,7 +102,7 @@ I will be available to help, but if you want to see the ‘answers’ to these q
 If we get this far in the tutorial, then I will go through some additional data gathered during the task that people completed whilst in the scanner. Essentially, we had people watch a video (a 30-minute episode of a sitcom) at about 8am, and then at about 10am they were shown in the MRI scanner two scenes from the episode, to which they had to select which scene came earlier in the video. 
 
 <div align="center">
-  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/haven_task.png" width="100%">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/haven_task.png" width="70%">
 </div>
 <br>
 
@@ -159,14 +159,14 @@ Here is a workbook for you to work your way through. Struggling is part of progr
 3) Are males and females signifciantly different in height or weight? (hint: run a t-test)
 
 **Correlations**
-4) Plot the correlation between age and total lesion volume
-5) Is this significant or not?
-6) Remove subject 21 and 30, and replot 4)
-7) Is this now significant or not?
+1) Plot the correlation between age and total lesion volume
+2) Is this significant or not?
+3) Remove subject 21 and 30, and replot 4)
+4) Is this now significant or not?
 
 **Separating by sex**
-8) Plot on the same graph the correlation between age and total lesion volume for males and females separately
-9) What do you see?
+1) Plot on the same graph the correlation between age and total lesion volume for males and females separately
+2) What do you see?
 
 ### Behavioural data
 

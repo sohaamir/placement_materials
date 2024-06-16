@@ -36,7 +36,7 @@ Click on the "Create repository" button to create your new repository. After the
 
 Ok, so at this stage we should have a repository called `in2science_placement` with a blank `README.md` file. Now we need to add our graphs and code to the README.
 
-## What is a README File?
+### What is a README File?
 
 A README file is a special file in a GitHub repository that serves as an introduction/overview of the repository. It is typically the first file that visitors see when they visit a repository on GitHub. The purpose of a README file is to provide essential information about the project.
 
@@ -55,11 +55,10 @@ You want for people to know the following:
 
 For steps 1-4, you can choose two/three graphs to add, each of which will have a brief description, code and the plot itself.
 
- Again, you will need to either Google or ChatGPT how to insert code/images. 
+Again, you will need to either Google or ChatGPT how to insert code/images. 
  
- Code you can just copy directly, but need to be contained within quotes. For example:
- 
- ```
+Code you can just copy directly, but need to be contained within quotes. For example:
+ ```R
  ggplot(combined_data, aes(x = age, y = RT, color = ID)) +
   geom_point(alpha = 0.5) +
   stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), geom = "errorbar", width = 0.4, color = "black") +
@@ -70,18 +69,71 @@ For steps 1-4, you can choose two/three graphs to add, each of which will have a
   guides(color = FALSE)
  ```
  
-Images on the other hand will be a bit trickier, because you need to provide a weblink to the path of the image online. I would recommend that you let me know when you get to this stage so I can set this up for you on my own account.
+Images on the other hand are a bit trickier, because you need to provide a weblink to the path of the image online. I would recommend that you let me know when you get to this stage so I can set this up for you on my own account.
 
 <div align="center">
-  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/stop.png" width="100%">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/stop.png" width="50%">
 </div>
 <br>
  
-### Publishing your README using GitHub Actions
+## Publishing your README using GitHub Actions
 
 So once you have your `README` with the code and graphs added, the final thing is to publish it using GitHub Actions. For our purposes, GitHub Actions is a way of turning our `README` into a webpage that visitors can see. 
 
-To set-up your GitHub Actions, do the following:
+We need to firstly enable GitHub Actions before we can run it. To enable GitHub Actions do the following:
 
+- Go to your repository settings.
+- Click on the "Actions" tab in the left sidebar.
+- Under "Actions permissions," select "Allow all actions" or "Allow select actions" (and choose the actions you want to allow).
 
+<div align="center">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/github_actions.png" width="80%">
+</div>
+<br>
 
+- Click on the "Save" button to save the settings.
+
+Now we can create what's called a 'workflow'. Essentially, whenever we change the `README` this workflow will be ran. Our workflow is to publish it as a webpage.
+
+To do this do the following:
+
+- In your GitHub repository, click on the "Actions" tab.
+- On the "Get Started With GitHub Actions" page, you have the option to start with a pre-made template or set up a workflow yourself. Since you want to publish your README to HTML, you can click on the "Set up a workflow yourself" button.
+
+<div align="center">
+  <img src="https://github.com/sohaamir/placement_materials/blob/main/img/github_workflow.png" width="80%">
+</div>
+<br>
+
+- You'll be taken to a page where you can edit the workflow file. Replace the contents of the file with the following code:
+
+```yaml
+name: Publish README to HTML
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Convert README to HTML
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        
+    - run: |
+        npm install -g marked
+        marked README.md -o index.html
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+```

@@ -23,7 +23,7 @@ This document demonstrates basic data analysis and plotting using the HAVEN data
 First thing first, we need to load and read the data. It's in a format called 'comma separated values' or CSV, which we can read into R using the `read_csv` function. We assign the data to a variable called `data`, which we can now work directly with. You can see this on the right hand panel in R ->
 
 ```{r include = FALSE}
-data <- read_csv("data/participant_data.csv")
+data <- read_csv("../data/participant_data.csv")
 ```
 
 If we want to find out some basic information about the data, we can display the first few rows of the data using the `head` function:
@@ -224,7 +224,7 @@ We can now see that there is only a significant difference in the relationship b
 Finally, we may be interested with understanding the potential impact of demographic and brain factors upon behaviour, we can look at participants' reaction times and accuracy during the episodic memory task. 
 
 ```{r include = FALSE}
-rt_data <- read_csv("data/rt_data.csv")
+rt_data <- read_csv("../data/rt_data.csv")
 ```
 
 ### Age and reaction time/accuracy
@@ -506,7 +506,7 @@ So you can see a difference, although none of the relationships become significa
 
 Load in the data.
 ```{r}
-combined_data <- read_csv("data/correct_rt_data.csv")
+combined_data <- read_csv("../data/correct_rt_data.csv")
 ```
 
 The code itself is not complicated at all (it's only 8 lines), but we need to be specific in how we organise the data. 
