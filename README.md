@@ -31,7 +31,7 @@ The repository itself contains the following structure:
     ├── github.md
     └── workbook.md
 ```
-With the following the folders:
+With the following folders:
 
 - `data` contains data required for the analyses:
     - `participant_data.csv`, basic demographic data for 52 participants including age, sex, height, weight, BMI and education, as well as lesion volume and lesion number
