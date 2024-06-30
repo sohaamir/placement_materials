@@ -156,17 +156,20 @@ Here is a workbook for you to work your way through. Struggling is part of progr
 ### Basic significance testing 
 
 **t-test**
+
 1) How many males and females are in the group?
 2) What is the mean height and weight for males and females?
 3) Are males and females signifciantly different in height or weight? (hint: run a t-test)
 
 **Correlations**
+
 1) Plot the correlation between age and total lesion volume
 2) Is this significant or not?
 3) Remove subject 21 and 30, and replot
 4) Is this now significant or not?
 
 **Separating by sex**
+
 1) Plot on the same graph the correlation between age and total lesion volume for males and females separately
 2) What do you see?
 
@@ -184,6 +187,3 @@ I'm purposely being more vague with the instructions here...
 ### The final test
 
 1) Recreate the graph provided above
-
-
-
