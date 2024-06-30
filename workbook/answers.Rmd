@@ -17,21 +17,21 @@ library(ggpubr)
 ```
 
 ## Introduction
-This document demonstrates basic data analysis and plotting using the HAVEN dataset in R. In doing so we will plot and work with data for age, sex, height, weight, bmi, lesion volume, number of lesions, and education level. We will firstly plot this data using a variety of plots, to understand how certain graphs are preferred for certain data. After plotting some of these, we will perform basic statistical tests to understand whether the relationship between the variables are significant.
+This document demonstrates basic data analysis and plotting using the HAVEN datasets in R. We will firstly plot the data using a variety of plots to understand how certain graphs are preferred for certain data. We will then perform basic statistical tests to understand whether the relationship between the variables are significant.
 
 # Load and display the data
-First thing first, we need to load and read the data. It's in a format called 'comma separated values' or CSV, which we can read into R using the `read_csv` function. We assign the data to a variable called `data`, which we can now work directly with. You can see this on the right hand panel in R ->
+First thing first, we need to load and read the data. The first dataset is in the `participant_data.csv` file. This file format is called 'comma separated values' or CSV, which we can read into R using the `read_csv` function. We firstly assign the data to a variable called `data`, which we can now work directly with. You can see this on the right hand panel called `Data` in R ->
 
 ```{r include = FALSE}
 data <- read_csv("../data/participant_data.csv")
 ```
 
-If we want to find out some basic information about the data, we can display the first few rows of the data using the `head` function:
+Just to see if we have loaded in the correct file and correctly assigned it, we can display the first few rows of `data` using the `head` function:
 ```{r}
 head(data)
 ```
 
-and calculate summary statistics for each variable. The summary statistics will give us the mean, range etc for each.
+We can also calculate summary statistics for each variable using `summary`. The summary statistics will give us the mean, range etc for each.
 ```{r}
 summary(data)
 ```
@@ -50,10 +50,10 @@ ggplot(data, aes(x = age, y = `lesion_volume`)) +
   theme_minimal()
 ```
 
-So, you can see that (generally) the older you are, the higher the total lesion volume is.
+So, you can see a positive correlation, namely that (generally) the older you are, the higher the total lesion volume will be.
 
 ### Violin plot of Total lesion volume by sex
-We can also group these results by sex, if we wanted to know whether there was a gender effect. We can do this using a boxplot, but because we are a but fancy, we can use a violin plot, a type of boxplot but which looks a bit nicer.
+We can also group these results by sex, if for example we wanted to know whether there is a gender effect. We can do this using a boxplot, specficially a violin plot, a type of boxplot but which looks a bit nicer.
 ```{r}
 ggplot(data, aes(x = sex, y = `lesion_volume`)) +
   geom_violin(aes(fill = sex), scale = "area", trim = TRUE) +
@@ -68,17 +68,19 @@ ggplot(data, aes(x = sex, y = `lesion_volume`)) +
 There seems to be a similar relationship between both genders, but more of a spread among Males, possibly due to the single outlier at the top. You can see this outlier in the scatter plot above as well.
 
 ### Height and weight by sex
-If we wanted to understand whether there is a difference between the height and weight between Males and Females, we can do this using violin plot, but also by creating a scatter plot:
+If we wanted to understand whether there is a difference between the height and weight between Males and Females, we can do this using a scatter plot, grouped by Sex:
+
 ```{r}
 g <- ggplot(data, aes(x=height, y=weight, colour=sex))
 g <- g + geom_point()
 g
 ```
-
 So you can see that males are generally towards the top and right (i.e., taller and heavier).
 
 ### Histogram of BMI
 Another type of graph that we can use is a histogram. Histograms are useful if we want to understand the spread of a particular variable for different categories. For example, if we wanted to understand the distribution of bmi or age across the group.
+
+Firstly, BMI:
 ```{r}
 ggplot(data, aes(x = bmi)) +
   geom_histogram(aes(y = after_stat(density)), binwidth = 1, fill = "steelblue", color = "black") +
@@ -93,6 +95,34 @@ ggplot(data, aes(x = bmi)) +
 ```
 
 So you can see that the most common BMI is 25. You can see that the distribution of BMI is lower for both low and high bmi (under and overweight) and higher in the middle. This variable is said to be 'normally distributed'. More examples of normally distributed data include height and weight (which makes sense as they constitute BMI!).
+
+Height:
+```{r}
+ggplot(data, aes(x = height)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.01, fill = "steelblue", color = "black") +
+  geom_density(color = "darkred", linetype = "solid", linewidth = 1) +
+  labs(title = "Histogram of height with Density Curve",
+       x = "height",
+       y = "Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+        axis.title.x = element_text(face = "bold"),
+        axis.title.y = element_text(face = "bold"))
+```
+
+Weight:
+```{r}
+ggplot(data, aes(x = weight)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 5, fill = "steelblue", color = "black") +
+  geom_density(color = "darkred", linetype = "solid", linewidth = 1) +
+  labs(title = "Histogram of weight with Density Curve",
+       x = "weight",
+       y = "Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+        axis.title.x = element_text(face = "bold"),
+        axis.title.y = element_text(face = "bold"))
+```
 
 ### Histogram of age
 Let's do the same but for age:
@@ -109,12 +139,12 @@ ggplot(data, aes(x = age)) +
         axis.title.y = element_text(face = "bold"))
 ```
 
-Conversely to BMI, we see that age is not normally distributed, but this makes because we only recruited those over 50. If we were recruiting across all age ranges from the general population (i.e., not just from the university where most would be students between 18-25), then we probably would see a normal distribution.
+Conversely to BMI, height and weight we see that age is not normally distributed, but this makes because we only recruited those over 50. If we were recruiting across all age ranges from the general population (i.e., not just from the university where most would be students between 18-25), then we probably would see a normal distribution.
 
 ## Basic statistics and significance testing
 Ok, so we have been able to visualise the data, and we have an idea of some of the trends. But how can we test whether these results are significant? Can we statistically say that Men are taller than Women? What about the relationship between Lesion Volume and age? Can we say that the older you are the higher lesion volume you have?
 
-Firstly, lets get some more summary statistics, this time for specific variables by themselves:
+Firstly, lets get some more summary statistics, this time for height and weight specficially:
 ```{r}
 group_by(data, sex) %>%
   summarise(
@@ -143,7 +173,7 @@ t.test(women$weight, men$weight)
 ```
 So, we can see in the p-values that there is a statistically significant difference between the height and weight between males and females. (9.77e-10 is a 0 followed by 10 more zeroes so 0.000000000977). What value is used as a cut-off for significance? Why?
 
-The answer is that a p-value of 0.05 is used as a cut-off. A p-value below 0.05 is said to be significant, and above is said to be insignificant. You don't need to know why 0.05 specifically or what it means, it just helps to know that there is some value that people measured against.
+> The answer is that a p-value of 0.05 is used as a cut-off. A p-value below 0.05 is said to be significant, and above is said to be insignificant. You don't need to know why 0.05 specifically or what it means, it just helps to know that there is some value that people measured against.
 
 In the case that we want to see whether there is a significant relationship between two continuous variables, i.e., between age and Lesion Volume across the entire group, we can run a correlation. A correlation just checks whether or not as one measure increases, the other also increases and vice versa. For example, we can run a correlation between lesion volume and age to see if as lesion volume increases age also increases:
 
@@ -221,11 +251,28 @@ ggplot(data_removed, aes(x = age, y = `lesion_volume`, color = sex)) +
 We can now see that there is only a significant difference in the relationship between age and total lesion volume for females, and not for males. Why do you think that this is? Regardless, by looking at the data in this way we have found something interesting (which we didn't see before) that we can subsequently look at further.
 
 ## Reaction times and accuracy
-Finally, we may be interested with understanding the potential impact of demographic and brain factors upon behaviour, we can look at participants' reaction times and accuracy during the episodic memory task. 
+Finally, we may also be interested with understanding the potential impact of demographic and brain factors upon behaviour. To do this we can look at participants' reaction times and accuracy during the episodic memory task using the `rt_data` dataset.
 
 ```{r include = FALSE}
 rt_data <- read_csv("../data/rt_data.csv")
 ```
+
+Again, let's run `head` to see the data:
+```{r}
+head(rt_data)
+```
+
+And `summary`:
+```{r}
+summary(rt_data)
+```
+
+At a first glance, there are some clear questions that we can investigate using our new-found plotting skills:
+
+- Does age affect reaction time/accuracy?
+- Does sex affect reaction time/accuracy?
+- Is there a sex by age effect?
+- Does lesion volume/number affect reaction time/accuracy?
 
 ### Age and reaction time/accuracy
 Firstly, lets plot the relationship between age and performance on the task, both for the reaction time (only for ones they got correct) and the percentage accuracy:
@@ -385,10 +432,10 @@ plot_ln_rt <- ggplot(rt_data, aes(x = lesion_number, y = correct_rt)) +
 # Plot lesion_volume against correct_percent
 model_lv_cp <- lm(correct_percent ~ lesion_volume, data = rt_data)
 p_value_lv_cp <- summary(model_lv_cp)$coefficients[2, "Pr(>|t|)"]
-
 plot_lv_cp <- ggplot(rt_data, aes(x = lesion_volume, y = correct_percent)) +
   geom_point(color = "darkblue", alpha = 0.7) +
   geom_smooth(method = "lm", se = FALSE, color = "darkblue", linetype = "solid") +
+  geom_vline(xintercept = 3, color = "red", linetype = "dashed") +  # Add this line
   labs(title = "Lesion Volume vs. Correct Percentage",
        x = "Lesion Volume",
        y = "Correct Percentage (%)") +
@@ -400,10 +447,10 @@ plot_lv_cp <- ggplot(rt_data, aes(x = lesion_volume, y = correct_percent)) +
 # Plot lesion_volume against correct_rt
 model_lv_rt <- lm(correct_rt ~ lesion_volume, data = rt_data)
 p_value_lv_rt <- summary(model_lv_rt)$coefficients[2, "Pr(>|t|)"]
-
 plot_lv_rt <- ggplot(rt_data, aes(x = lesion_volume, y = correct_rt)) +
   geom_point(color = "darkred", alpha = 0.7) +
   geom_smooth(method = "lm", se = FALSE, color = "darkred", linetype = "solid") +
+  geom_vline(xintercept = 3, color = "red", linetype = "dashed") +  # Add this line
   labs(title = "Lesion Volume vs. Correct Reaction Time",
        x = "Lesion Volume",
        y = "Correct Reaction Time (ms)") +
@@ -419,7 +466,7 @@ print(plot_lv_cp)
 print(plot_lv_rt)
 ```
 
-But you can see that there is an outlier for the last two graphs. What would happen if we removed this from the plot?
+But you can see that there are outliers for the last two graphs, indicated by those beyond the red line. What would happen if we removed these from the plots?
 
 ```{r}
 # Create a theme for scientific publication
@@ -431,8 +478,8 @@ theme_publication <- theme_minimal() +
     legend.position = "none"
   )
 
-# Subset the data to exclude lesion_volume greater than 5
-rt_data_subset <- subset(rt_data, lesion_volume <= 5)
+# Subset the data to exclude lesion_volume greater than 3
+rt_data_subset <- subset(rt_data, lesion_volume <= 3)
 
 # Plot lesion_number against correct_percent
 model_ln_cp <- lm(correct_percent ~ lesion_number, data = rt_data_subset)
@@ -500,7 +547,7 @@ print(plot_ln_rt)
 print(plot_lv_cp)
 print(plot_lv_rt)
 ```
-So you can see a difference, although none of the relationships become significant.
+So you can see a difference (particularly in the last graph) although none of the relationships become significant by removing the outliers.
 
 ## One final test
 
@@ -529,4 +576,119 @@ ggplot(combined_data, aes(x = age, y = RT, color = ID)) +
   labs(x = "Age", y = "Reaction Time", color = "ID") +
   theme_classic() +
   guides(color = FALSE)
+```
+Here is a slightly different version:
+
+```{r}
+library(viridis)
+
+# Create a theme for scientific publication
+theme_publication <- theme_minimal() +
+  theme(
+    text = element_text(family = "Arial", size = 12),
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    axis.title = element_text(face = "bold", size = 14),
+    axis.text = element_text(size = 12),
+    legend.position = "none",  # This removes the legend
+    panel.grid.major = element_line(color = "gray90"),
+    panel.grid.minor = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.5)
+  )
+
+# Create the enhanced plot
+ggplot(rt_data, aes(x = Age, y = correct_rt, color = factor(lesion_number))) +
+  geom_point(alpha = 0.6, size = 2) +
+  stat_summary(fun.data = "mean_sdl", fun.args = list(mult = 1), 
+               geom = "errorbar", width = 0.5, color = "black", size = 0.5) +
+  stat_summary(fun = "mean", geom = "point", shape = 21, 
+               fill = "white", size = 3, color = "black") +
+  geom_smooth(method = "lm", se = TRUE, color = "black", 
+              fill = "gray", alpha = 0.2, size = 1) +
+  scale_color_viridis(discrete = TRUE, option = "D") +
+  labs(
+    title = "Relationship Between Age and Reaction Time",
+    x = "Age (years)",
+    y = "Correct Reaction Time (ms)",
+    caption = "Error bars represent ±1 SD; Black line shows linear trend"
+  ) +
+  theme_publication
+```
+
+And if we want, we can combine the different graphs into a single image, which is common when writing scientific papers:
+
+```{r}
+library(gridExtra)
+library(dplyr)
+library(grid)
+
+# Filter out lesion volumes beyond 3
+rt_data_filtered <- rt_data %>% filter(lesion_volume <= 3)
+
+# Create a theme for publication
+theme_publication <- theme_minimal() +
+  theme(
+    text = element_text(family = "Arial", size = 10),
+    axis.title = element_text(face = "bold", size = 10),
+    axis.text = element_text(size = 8),
+    legend.position = "none",
+    legend.title = element_text(size = 9, face = "bold"),
+    legend.text = element_text(size = 8),
+    panel.grid.major = element_line(color = "gray90"),
+    panel.grid.minor = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.5),
+    plot.title = element_text(face = "bold", size = 12, hjust = -0.05, vjust = 1.5)
+  )
+
+# Plot A: Violin plot of Age by Sex with individual data points
+plot_A <- ggplot(rt_data_filtered, aes(x = Sex, y = Age, fill = Sex)) +
+  geom_violin(alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.5, aes(color = Sex)) +
+  stat_summary(fun = mean, geom = "point", size = 3, color = "black") +
+  scale_fill_manual(values = c("blue", "red")) +
+  scale_color_manual(values = c("blue", "red")) +
+  labs(x = "Sex", y = "Age", title = "A") +
+  theme_publication
+
+# Plot B: BMI vs correct_percent
+plot_B <- ggplot(rt_data_filtered, aes(x = BMI, y = correct_percent)) +
+  geom_point(alpha = 0.5, color = "purple") +
+  geom_smooth(method = "lm", se = TRUE, color = "purple", fill = "lavender") +
+  labs(x = "BMI", y = "Correct Percentage", title = "B") +
+  theme_publication
+
+# Plot C1: Scatter plot with trend lines (lesion number vs correct RT)
+plot_C1 <- ggplot(rt_data_filtered, aes(x = lesion_number, y = correct_rt)) +
+  geom_point(alpha = 0.5, color = "blue") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue", fill = "lightblue") +
+  labs(x = "Lesion Number", y = "Correct RT", title = "C") +
+  theme_publication
+
+# Plot C2: Scatter plot with trend lines (lesion volume vs correct RT)
+plot_C2 <- ggplot(rt_data_filtered, aes(x = lesion_volume, y = correct_rt)) +
+  geom_point(alpha = 0.5, color = "red") +
+  geom_smooth(method = "lm", se = TRUE, color = "red", fill = "pink") +
+  labs(x = "Lesion Volume", y = "Correct RT") +
+  theme_publication
+
+# Plot D: Age against correct_percent separated by Sex
+plot_D <- ggplot(rt_data_filtered, aes(x = Age, y = correct_percent, color = Sex)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = TRUE) +
+  scale_color_manual(values = c("blue", "red")) +
+  labs(x = "Age", y = "Correct Percentage", title = "D") +
+  theme_publication +
+  theme(legend.position = c(0.85, 0.85), 
+        legend.background = element_rect(fill = "white", color = "black"),
+        legend.title = element_text(size = 8),
+        legend.text = element_text(size = 7),
+        legend.key.size = unit(0.5, "lines"))
+
+# Combine plots
+final_plot <- grid.arrange(
+  plot_A, plot_C1, plot_C2,
+  plot_B, plot_D,
+  layout_matrix = rbind(c(1,2,3), c(4,5,5)),
+  widths = c(1, 1, 1),
+  heights = c(1, 1)
+)
 ```
